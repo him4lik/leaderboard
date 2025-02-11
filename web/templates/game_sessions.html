@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Sessions</title>
+	<style>
+        table {
+            width: 50%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+	<form action="{% url 'admin-dashboard' %}" method="GET">
+	{% csrf_token%}
+    <h1><input type="submit" value="HOME"></h1>
+</form>
+	<h2>Game Sesssions</h2><br>
+	<h3>Game Name : {{game_name}}</h3>
+<br>
+
+<table>
+	<tr>
+		<th>Game Name</th>
+		<th>Live</th>
+		<th>Start TimeStamp</th>
+		<th>Duration</th>
+		<th>Check Score</th>
+	</tr>
+{%for i in data.sessions%}
+	<tr>
+<td>{{i.game}}</td> <td>{{i.active}}</td><td>{{i.date_created}}</td> <td>{{i.duration_in_sec}}</td>
+<td><form action="{% url 'game-session-status' %}" method="GET">
+	{% csrf_token%}
+	<input type="hidden" name="id" value={{i.id}}>
+    <input type="submit" value="Scores">
+</form></td>
+</tr>
+{%endfor%}
+</table>
+<br>
+
+<h2>LeaderBoard</h2><br>
+<form method="GET", action="{% url 'game-session'%}">
+<input name="as_on" type="date" value={{as_on}}  />
+<input type="hidden" name="name" value={{game_name}}  />
+<input type="submit" name="Submit", value="As on">
+</form>
+<br>
+<table>
+	<tr>
+		<th>Username</th>
+		<th>Score</th>
+	</tr>
+{%for leader in leaders%}
+<tr>
+<td>{{leader.username}}</td> <td>{{leader.tot_score}}</td>
+</tr>
+{%endfor%}
+</table>
+
+
+{{errors}}
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Dashboard</title>
+	<style>
+        table {
+            width: 50%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+	<form action="{% url 'admin-dashboard' %}" method="GET">
+	{% csrf_token%}
+    <h1><input type="submit" value="HOME"></h1>
+</form>
+
+
+<h2> Contestants</h2>
+<br>
+<form method="GET", action="{% url 'admin-dashboard' %}">
+<input name="as_on" value={{as_on}} type="date" />
+<input type="submit" name="Submit", value="As on">
+</form>
+<br>
+<table>
+
+<tr>
+	<th>Date Joined</th>
+	<th> Username</th>
+	<th>Gender</th>
+	<th>Score</th>
+	<th>Update</th>
+	<th>Delete</th>
+	<th>Rank</th>
+</tr>
+{%for i in data.contestants%}
+	<tr><td>{{i.date_joined}}</td> <td>{{i.username}}</td><td>{{i.gender}}</td><td> {{i.score}}</td> 
+	<td><form action="{% url 'contestant-crud' 'update' %}" method="POST">
+		{% csrf_token%}
+		<input type="hidden" name="username" value={{i.username}}>
+	    <input type="submit" value="Update">
+	</form></td>
+	<td>
+	<form action="{% url 'contestant-crud' 'delete' %}" method="POST">
+		{% csrf_token%}
+		<input type="hidden" name="username" value={{i.username}}>
+	    <input type="submit" value="Delete">
+	</form>
+</td>
+<td>{{i.rank}}</td>
+	</tr>
+
+{%endfor%}
+</table>
+<br>
+<form method='POST' action="{% url 'contestant-crud' 'add'%}">
+    {% csrf_token%}
+	{{forms.0}}
+	<input type="submit" name="Submit", value="Add Contestant">
+</form>
+
+<br><br>
+
+<h2>Games</h2><br>
+<table>
+	<tr>
+	<th>Game Name</th>
+	<th>Status</th>
+	<th>Number of players</th>
+	<th>Popularity Score</th>
+	<th>Action</th>
+	<th>Sessions</th>
+	<th>Update</th>
+	<th>Delete</th>
+	<th>Add Participients</th>
+	<th>Sessions Played</th>
+</tr>
+{%for i in data.games%}
+<tr>
+	<td>{{i.name}}</td> 
+	{%if i.active%}
+	<td>LIVE</td>
+	{%else%}
+	<td>DORMANT</td>
+	{%endif%}
+	<td>{{i.num_participents}}</td>
+	<td>{{i.popularity_score}}</td>
+<td>
+<form action="{% url 'game-crud' 'update'%}" method="POST">
+	{% csrf_token%}
+	<input type="hidden" name="name" value={{i.name}}>
+	<input type="hidden" name="active" value={{i.action}}>
+{%if i.active%}
+    <input type="submit" value="End">
+{%else%}
+	<input type="submit" value="Start">
+{%endif%}
+
+</form>
+</td>
+<td>
+<form action="{% url 'game-session'%}" method="GET">
+	{% csrf_token%}
+	<input type="hidden" name="name" value={{i.name}}>
+    <input type="submit" value="Sessions">
+</form>
+</td>
+<td>
+<form action="{% url 'game-crud' 'update' %}" method="POST">
+	{% csrf_token%}
+	<input type="hidden" name="name" value={{i.name}}>
+    <input type="submit" value="Update">
+</form>
+</td>
+<td>
+<form action="{% url 'game-crud' 'delete' %}" method="POST">
+	{% csrf_token%}
+	<input type="hidden" name="name" value={{i.name}}>
+    <input type="submit" value="Delete">
+</form>
+</td>
+<td>
+	<form method='POST' action="{% url 'game-session' %}">
+    {% csrf_token%}
+	<!-- {{forms.2.contestants}} -->
+	<input type="hidden" name="game", value={{i.name}}>
+	<input type="hidden" name="action", value="update">
+	
+	<select name="contestant_ids" multiple>
+	{%for option in i.possible_contestants%}
+    <option value={{option.id}}>{{option.username}}</option>
+    {%endfor%}
+    <input type="submit" name="Submit", value="Add Participents">
+    </select>
+</form>
+
+</td>
+<td>
+	{{i.sessions_played}}
+</td>
+</tr>
+{%endfor%}
+</table>
+<form method='POST' action="{% url 'game-crud' 'add'%}">
+    {% csrf_token%}
+	{{forms.1}}
+	<input type="submit" name="Submit", value="Add Game">
+</form>
+{{errors}}
+
+
+<br>
+
+</body>
+</html>

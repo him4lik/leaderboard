@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Status</title>
+	<style>
+        table {
+            width: 50%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<br>
+<body>
+	<form action="{% url 'admin-dashboard' %}" method="GET">
+	{% csrf_token%}
+    <input type="submit" value="HOME">
+</form>
+<br>
+<h2>Session details : {{data.cont_details.0.session.game.name}}</h2>
+	<br>
+<table>
+	<tr>
+	<th> Username</th>
+	<th>Entry Time</th>
+	<th>Score</th>
+	<th>Status</th>
+	<th>Action</th>
+</tr>
+{%for i in data.cont_details%}
+<tr>
+<td>{{i.contestant.username}}</td> <td>{{i.entry_time}}</td> <td>{{i.score}}</td> 
+{%if i.active%}
+<td>JOINED</td>
+{%else%}
+<td>LEFT</td>
+{%endif%}
+<td>
+<form action="{% url 'game-session-status' %}" method="POST">
+	{% csrf_token%}
+	<input type="hidden" name="id" value={{i.id}}>
+	<input type="hidden" name="session_id" value={{i.session.id}}>
+	{%if i.active%}
+    <input name="action" type="submit" value="Remove">
+    {%else%}
+    <input name="action" type="submit" value="Add">
+    {%endif%}
+</form></td></tr>
+{%endfor%}
+</table>
+</body>
+</html>
