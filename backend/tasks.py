@@ -19,7 +19,7 @@ def refresh_popularity_score():
 	while True:
 		time.sleep(60)
 		games = Game.objects.all()
-		max_upvotes = max([game.upvotes for game in games])  
+		max_upvotes = max([game.upvotes  for game in games]) if games else 0  
 		for game in games:
 			yesterday = date.today()-timedelta(days=1)
 
@@ -32,7 +32,8 @@ def refresh_popularity_score():
 			w3 = game.upvotes
 
 			w4 = len(game.active_sessions(yesterday, yesterday))
-			max_session_length = game.gamesession_set.order_by('duration_in_sec').last().duration_in_sec  
+			lengthiest_session = game.gamesession_set.order_by('duration_in_sec').last()
+			max_session_length = lengthiest_session.duration_in_sec if lengthiest_session else 0  
 
 			w5 = w4
 			max_daily_sessions = game.max_daily_sessions  
