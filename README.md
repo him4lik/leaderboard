@@ -34,7 +34,7 @@ DB_HOST=postgres
 
 ## Usage
 ### Running the Services
-  - Access the Django application at: [http://localhost:8000](http://localhost:8000)
+  - Access the Django application at: [http://localhost:8000/web/dashboard](http://localhost:8000/web/dashboard)
 
 ### This service integrates with the following components:
   - PostgreSQL: For persistent data storage.
