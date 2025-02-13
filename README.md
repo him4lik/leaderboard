@@ -18,10 +18,10 @@ git clone https://github.com/username/super-repo.git
     ```bash
     docker-compose up --build
     ```
-###Configuration
-###Environment Variables
+### Configuration
+### Environment Variables
 
-####Create a .env file in the leaderboard directory with the following variables:
+#### Create a .env file in the leaderboard directory with the following variables:
 ```bash
 DEBUG=TRUE
 PATH_SPEC=test
@@ -31,15 +31,15 @@ DB_PASSWORD=forgot123
 DB_HOST=postgres
 ```
 
-###Usage
-####Running the Services
+### Usage
+#### Running the Services
   Access the Django application at: 
     [http://localhost:8000](http://localhost:8000)
 
-###This service integrates with the following components:
-####PostgreSQL: For persistent data storage.
-####Redis: For task queuing and caching.
-####Celery Worker: For asynchronous task processing.
-####Celery Beat: For scheduled tasks
+### This service integrates with the following components:
+#### PostgreSQL: For persistent data storage.
+#### Redis: For task queuing and caching.
+#### Celery Worker: For asynchronous task processing.
+#### Celery Beat: For scheduled tasks
 
 Super module link to test with above mentioned services - [https://github.com/him4lik/leaderboard-deploy](https://github.com/him4lik/leaderboard-deploy)
