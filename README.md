@@ -1,11 +1,11 @@
-### Leaderboard Service Submodule
-## Description
+## Leaderboard Service Submodule
+### Description
 
 This submodule is part of the larger project and provides the leaderboard functionality. It is built using Django and integrates with PostgreSQL for data storage, Redis for caching and task queuing, and Celery for asynchronous task processing. The service is containerized using Docker and managed via Docker Compose.
 ### Installation
-## Prerequisites
+#### Prerequisites
   Docker and Docker Compose installed on your machine.
-## Steps
+#### Steps
   Clone the super repository:
   ```bash
 git clone https://github.com/username/super-repo.git
@@ -19,9 +19,9 @@ git clone https://github.com/username/super-repo.git
     docker-compose up --build
     ```
 ###Configuration
-##Environment Variables
+###Environment Variables
 
-Create a .env file in the leaderboard directory with the following variables:
+####Create a .env file in the leaderboard directory with the following variables:
 ```bash
 DEBUG=TRUE
 PATH_SPEC=test
@@ -32,7 +32,7 @@ DB_HOST=postgres
 ```
 
 ###Usage
-##Running the Services
+####Running the Services
   Access the Django application at: 
     [http://localhost:8000](http://localhost:8000)
 
