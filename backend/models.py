@@ -120,7 +120,11 @@ class Game(BaseModel):
 
 	@property
 	def max_daily_sessions(self):
-		start_date = HistoricalGameSession.objects.filter(game=self).order_by('history_date').first().history_date.date()
+		his_date = HistoricalGameSession.objects.filter(game=self).order_by('history_date').first()
+		if his_date:
+			start_date = his_date.history_date.date()
+		else:
+			start_date = date.today()
 		max_sessions = 0
 		for i in range((date.today() - start_date).days + 1):
 			current_date = start_date + timedelta(days=i)

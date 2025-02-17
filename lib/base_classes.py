@@ -33,66 +33,6 @@ class BaseHistoryModel(models.Model):
 class BaseModel(models.Model):
     history = HistoricalRecords(inherit=True, bases=[BaseHistoryModel])
 
-    def set_field(self, data):
-        change_flag = False
-        for k,v in data.items():
-            if getattr(self, k) != v:
-                setattr(self, k, v)
-                change_flag = True
-
-        if change_flag:
-            self.clean_strings()
-            self.full_clean()
-            self.save()
-
-    def get_histories(self, start_date=None, end_date=None):
-        histories = self.history.all()
-        if start_date:
-            histories = histories.filter(history_date__gte=start_date)
-        if end_date:
-            histories = histories.filter(history_date__lte=end_date)
-
-        return histories.order_by('-history_date')
-
-    def latest(self, dt=datetime.datetime.now()):
-        if dt==None:
-            dt=datetime.datetime.now()
-        histories = self.history.all()
-        if type(dt) is datetime.date:
-            dt = dt + datetime.timedelta(days=1)
-            dt = datetime.datetime(dt.year, dt.month, dt.day)
-        dt = dt.replace(tzinfo=timezone.utc)
-        sh_avail_date = datetime.datetime(2021, 1, 3).replace(tzinfo=timezone.utc)
-        dt = max(dt, sh_avail_date)
-        histories = histories.filter(history_date__lte=dt)
-
-        return histories.order_by('-history_date').first()
-
-    def oldest(self, dt=datetime.datetime.now()):
-        histories = self.history.all()
-        if type(dt) is datetime.date:
-            dt = dt + datetime.timedelta(days=1)
-            dt = datetime.datetime(dt.year, dt.month, dt.day)
-        dt = dt.replace(tzinfo=timezone.utc)
-        sh_avail_date = datetime.datetime(2021, 1, 3).replace(tzinfo=timezone.utc)
-        dt = max(dt, sh_avail_date)
-        histories = histories.filter(history_date__gte=dt)
-
-        return histories.order_by('-history_date').last()
-
-    def clean_strings(self):
-        for f in self._meta.fields:
-            if not type(f) in [models.CharField, models.TextField]: continue
-            val = getattr(self, f.name)
-            if val: setattr(self, f.name, ' '.join(val.split()))
-
-    @classmethod
-    def data_members_json(cls, instance=None):
-        if instance:
-            return cls.jsonify(instance)
-        else:
-            return {f.name: None for f in cls._meta.get_fields()}
-
     def save(self, *args, **kwargs):
         self.full_clean()
         super().save(*args, **kwargs)

@@ -1,5 +1,5 @@
 FROM python:3.12.1-bullseye
-RUN apt-get update && apt-get install -y tesseract-ocr postgresql-client libpq-dev binutils libproj-dev gdal-bin wkhtmltopdf qpdf libqpdf-dev nginx libblas-dev liblapack-dev libatlas-base-dev gfortran-9
+RUN apt-get update && apt-get install -y tesseract-ocr postgresql-client 
 RUN mkdir /code
 WORKDIR /code
 COPY requirements.txt /code/
