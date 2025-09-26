@@ -60,8 +60,8 @@ class Game(BaseModel):
 		data = model_to_dict(self, exclude=[])
 		data['action'] = False if self.active else True
 		session = self.gamesession_set.filter(active=True).last()
-		data['num_participents'] = session.contestants.count() if session else None
-		data['possible_contestants'] = [{"username":contestant.username, "id":contestant.id} for contestant in Contestant.objects.exclude(id__in=[i.id for i in session.contestants.all()])] if session else []
+		data['num_participents'] = session.contestants.filter(sessioncontestantdetail__active=True).count() if session else None
+		data['possible_contestants'] = [{"username":contestant.username, "id":contestant.id} for contestant in Contestant.objects.exclude(id__in=[i.id for i in session.contestants.filter(sessioncontestantdetail__active=True)])] if session else []
 		data['sessions_played'] = GameSession.objects.filter(game=self).count()
 		return data
 
