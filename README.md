@@ -2,7 +2,8 @@
 ## Description
 
 This submodule is part of the larger project and provides the leaderboard functionality. It is built using Django and integrates with PostgreSQL for data storage, Redis for caching and task queuing, and Celery for asynchronous task processing. The service is containerized using Docker and managed via Docker Compose.
-[Super Repo](https://github.com/him4lik/leaderboard-deploy)
+
+Parent module link to test with above mentioned services - [https://github.com/him4lik/leaderboard-deploy](https://github.com/him4lik/leaderboard-deploy)
 
 ## Installation
 ### Prerequisites
@@ -32,5 +33,3 @@ This submodule is part of the larger project and provides the leaderboard functi
   - Redis: For task queuing and caching.
   - Celery Worker: For asynchronous task processing.
   - Celery Beat: For scheduled tasks
-
-Parent module link to test with above mentioned services - [https://github.com/him4lik/leaderboard-deploy](https://github.com/him4lik/leaderboard-deploy)
