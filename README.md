@@ -2,6 +2,7 @@
 ## Description
 
 This submodule is part of the larger project and provides the leaderboard functionality. It is built using Django and integrates with PostgreSQL for data storage, Redis for caching and task queuing, and Celery for asynchronous task processing. The service is containerized using Docker and managed via Docker Compose.
+[Super Repo](https://github.com/him4lik/leaderboard-deploy)
 
 ## Installation
 ### Prerequisites
@@ -9,32 +10,22 @@ This submodule is part of the larger project and provides the leaderboard functi
 ### Steps
   - Clone the super repository:
     ```bash
-    git clone https://github.com/username/super-repo.git
+    git clone git@github.com:him4lik/leaderboard-deploy.git
     ```
   - Navigate to the leaderboard service directory:
     ```bash
-    cd super-repo/leaderboard
+    cd leaderboard-deploy/leaderboard
     ```
   - Build and start the services using Docker Compose:
+    Go to the super project directory and run following commands
     ```bash
-    docker-compose up --build
+    source .bash_aliases
+    dcrestart
     ```
-### Configuration
-### Environment Variables
-
-#### Create a .env file in the leaderboard directory with the following variables:
-```bash
-DEBUG=TRUE
-PATH_SPEC=test
-DB_NAME=leaderboard
-DB_USER=ubuntu
-DB_PASSWORD=forgot123
-DB_HOST=postgres
-```
-
+    
 ## Usage
 ### Running the Services
-  - Access the Django application at: [http://localhost:8000/web/dashboard](http://localhost:8000/web/dashboard)
+  - Access the Django application at: [http://localhost:8001/web/dashboard](http://localhost:8001/web/dashboard)
 
 ### This service integrates with the following components:
   - PostgreSQL: For persistent data storage.
